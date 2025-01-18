@@ -4,21 +4,21 @@ import { createClient } from "next-sanity";
 
 // 1. Create a Sanity client with your write token
 export const sanityClient = createClient({
-  projectId: "ckmfdvkv",
+  projectId: "",
   dataset: "production",
   apiVersion: "2023-10-01",
   useCdn: false,  // must be false if you're writing data
   // Keep your token in an .env file, e.g. process.env.SANITY_WRITE_TOKEN
-  token: process.env.SANITY_WRITE_TOKEN || "sk3kNiqgZiEq24BWQ85qPy9K5xNrJgxCAtMQ9Jzzf3QN6wOUx41OCQ9N6zK0J6XdLLNa4f8K3CwRlXfPzsrPey93wZTNben2JEStBSYKVdqSK4FPPjtClEvpVrdwmXEdiXGYesE9CzOOgiLjzYOtGCjpHVwJY2XYqLENytJavXbwT9mKxrCc",
+  token: process.env.SANITY_WRITE_TOKEN || "add token here",
 });
 
 export async function GET() {
   try {
     // 2. Fetch data from your external API
-    const { data } = await axios.get("https://template-0-beta.vercel.app/api/product");
+    const { data } = await axios.get("https://your data api .app/api/product");
     // data is an array of products
 
-    // 3. Insert each product into Sanity
+    // 3. Insert each product into Sanity as per your scehma 
     for (const product of data) {
       await sanityClient.create({
         _type: "product",
@@ -41,3 +41,9 @@ export async function GET() {
     return NextResponse.json({ error: "Failed to fetch or insert data" }, { status: 500 });
   }
 }
+
+
+// how to run it 
+// 1. Run the server with `next dev` or `next start`
+// 2. Visit http://localhost:3000/api/fetch-and-insert
+// 3. It will fetch data from your external API and insert it into Sanity
